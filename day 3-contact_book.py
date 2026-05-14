@@ -3,7 +3,7 @@
 
 contacts = []
 
-def add():
+def add(): 
     name  = input("Name  : ").title()
     phone = input("Phone : ")
     contacts.append([name, phone])
