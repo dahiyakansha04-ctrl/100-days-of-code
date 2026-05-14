@@ -9,7 +9,7 @@ def add():
     contacts.append([name, phone])
     print(f"✓ {name} added.")
 
-def view():
+def view(): 
     if not contacts:
         print("No contacts.")
         return
