@@ -1,0 +1,34 @@
+# Attendance System — Tuples & Sets
+# Day 4 of learning in public
+
+# Tuple 
+class_info = ("Python Batch A", "Mon/Wed/Fri")
+batch, schedule = class_info
+
+enrolled = ["Aryan", "Rahul", "Priya", "Sandeep", "Sneha"]
+
+# Set
+attended = set()
+
+print(f"Batch    : {batch}")
+print(f"Schedule : {schedule}")
+print(f"Enrolled : {enrolled}\n")
+
+# Mark attendance
+while True:
+    name = input("Mark present (or 'done'): ").title()
+    if name == "Done":
+        break
+    if name in enrolled:
+        attended.add(name)       # set ignores duplicates automatically
+        print(f"✓ {name} marked.")
+    else:
+        print("Not enrolled.")
+
+# Results
+absent     = set(enrolled) - attended
+percentage = len(attended) / len(enrolled) * 100
+
+print(f"\nPresent    : {attended}")
+print(f"Absent     : {absent}")
+print(f"Attendance : {percentage:.1f}%")
