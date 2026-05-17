@@ -1,0 +1,28 @@
+# Word Frequency Counter — Dictionaries
+# Day 5 of learning in public
+
+from collections import defaultdict
+
+def word_frequency(sentence):
+    words = sentence.lower().split()
+    freq  = defaultdict(int)
+
+    for word in words:
+        freq[word] += 1
+
+    return dict(sorted(freq.items(), key=lambda x: x[1], reverse=True))
+
+def display(freq):
+    print(f"\n{'Word':<15} {'Count':<5} {'Bar'}")
+    print("-" * 35)
+    for word, count in freq.items():
+        bar = "█" * count
+        print(f"{word:<15} {count:<5} {bar}")
+
+sentence = input("Enter a sentence: ")
+freq     = word_frequency(sentence)
+display(freq)
+
+print(f"\nTotal words  : {sum(freq.values())}")
+print(f"Unique words : {len(freq)}")
+print(f"Most common  : '{max(freq, key=freq.get)}'")
