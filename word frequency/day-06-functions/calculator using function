@@ -1,0 +1,25 @@
+# Calculator — Functions
+# Day 6 of learning in public
+
+def add(a, b):      return a + b
+def subtract(a, b): return a - b
+def multiply(a, b): return a * b
+def divide(a, b):   return a / b if b != 0 else "Error: division by zero"
+
+def calculate(a, op, b):
+    operations = {
+        "+": add,
+        "-": subtract,
+        "*": multiply,
+        "/": divide
+    }
+    return operations.get(op, lambda a,b: "Invalid operator")(a, b)
+
+while True:
+    print("\n1.Calculate 2.Exit")
+    choice = input("> ")
+    if choice == "2": break
+    a  = float(input("First number  : "))
+    op = input("Operator (+,-,*,/): ")
+    b  = float(input("Second number : "))
+    print(f"Result: {calculate(a, op, b)}")
