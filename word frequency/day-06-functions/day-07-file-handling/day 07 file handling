@@ -1,0 +1,35 @@
+# Notes App — File Handling
+# Day 7 of learning in public
+
+FILE = "notes.txt"
+
+def add_note():
+    note = input("Note: ")
+    with open(FILE, "a") as f:
+        f.write(note + "\n")
+    print("✓ Saved.")
+
+def view_notes():
+    try:
+        with open(FILE, "r") as f:
+            notes = f.readlines()
+        if not notes:
+            print("No notes yet.")
+            return
+        for i, note in enumerate(notes, 1):
+            print(f"{i}. {note.strip()}")
+    except FileNotFoundError:
+        print("No notes yet.")
+
+def clear_notes():
+    with open(FILE, "w") as f:
+        f.write("")
+    print("✓ Cleared.")
+
+while True:
+    print("\n1.Add 2.View 3.Clear 4.Exit")
+    choice = input("> ")
+    if   choice == "1": add_note()
+    elif choice == "2": view_notes()
+    elif choice == "3": clear_notes()
+    elif choice == "4": break
