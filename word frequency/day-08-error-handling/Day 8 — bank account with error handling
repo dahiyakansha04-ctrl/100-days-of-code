@@ -1,0 +1,48 @@
+# Bank Account — Error Handling
+# Day 8 of learning in public
+
+class InsufficientFundsError(Exception):
+    def __init__(self, balance, amount):
+        super().__init__(f"Cannot withdraw ₹{amount}. Available: ₹{balance}")
+
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner   = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Amount must be positive.")
+        self.balance += amount
+        print(f"✓ Deposited ₹{amount}. Balance: ₹{self.balance}")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Amount must be positive.")
+        if amount > self.balance:
+            raise InsufficientFundsError(self.balance, amount)
+        self.balance -= amount
+        print(f"✓ Withdrew ₹{amount}. Balance: ₹{self.balance}")
+
+account = BankAccount("Aryan", 5000)
+
+while True:
+    print("\n1.Deposit 2.Withdraw 3.Balance 4.Exit")
+    choice = input("> ")
+
+    try:
+        if choice == "1":
+            account.deposit(float(input("Amount: ")))
+        elif choice == "2":
+            account.withdraw(float(input("Amount: ")))
+        elif choice == "3":
+            print(f"Balance: ₹{account.balance}")
+        elif choice == "4":
+            break
+
+    except InsufficientFundsError as e:
+        print(f"✗ {e}")
+    except ValueError as e:
+        print(f"✗ {e}")
+    finally:
+        pass
