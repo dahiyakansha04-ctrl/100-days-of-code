@@ -1,0 +1,77 @@
+# Calculator Package — Modules & Packages
+# Day 9 of learning in public
+#
+# Structure:
+# calculator/
+# ├── main.py         ← you are here
+# └── modules/
+#     ├── __init__.py
+#     ├── basic.py
+#     └── advanced.py
+
+# ── modules/basic.py ──────────────────────────
+# def add(a, b):      return a + b
+# def subtract(a, b): return a - b
+# def multiply(a, b): return a * b
+# def divide(a, b):   return a / b if b != 0 else "Error"
+
+# ── modules/advanced.py ───────────────────────
+# import math
+# def power(a, b):    return a ** b
+# def sqrt(n):        return math.sqrt(n)
+# def factorial(n):   return math.factorial(n)
+
+# ── main.py ───────────────────────────────────
+# Simulated here in one file for GitHub clarity
+
+import math
+
+# basic operations
+def add(a, b):      return a + b
+def subtract(a, b): return a - b
+def multiply(a, b): return a * b
+def divide(a, b):   return a / b if b != 0 else "Cannot divide by zero"
+
+# advanced operations
+def power(a, b):    return a ** b
+def sqrt(n):        return math.sqrt(n)
+def factorial(n):   return math.factorial(n)
+
+OPERATIONS = {
+    "1": ("Add",       add),
+    "2": ("Subtract",  subtract),
+    "3": ("Multiply",  multiply),
+    "4": ("Divide",    divide),
+    "5": ("Power",     power),
+    "6": ("Sqrt",      sqrt),
+    "7": ("Factorial", factorial),
+}
+
+if __name__ == "__main__":
+    print("=== Calculator ===")
+
+    while True:
+        for key, (name, _) in OPERATIONS.items():
+            print(f"{key}. {name}")
+        print("0. Exit")
+
+        choice = input("\n> ")
+        if choice == "0": break
+        if choice not in OPERATIONS:
+            print("Invalid."); continue
+
+        name, fn = OPERATIONS[choice]
+
+        try:
+            if choice in ("6",):
+                a = float(input("Number: "))
+                print(f"{name}({a}) = {fn(a):.4f}")
+            elif choice in ("7",):
+                a = int(input("Number: "))
+                print(f"{name}({a}) = {fn(a)}")
+            else:
+                a = float(input("First : "))
+                b = float(input("Second: "))
+                print(f"Result = {fn(a, b)}")
+        except Exception as e:
+            print(f"Error: {e}")
