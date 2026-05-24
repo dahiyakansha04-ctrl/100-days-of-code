@@ -1,0 +1,61 @@
+# Library System — OOP Classes & Objects
+# Day 10 of learning in public
+
+class Book:
+    total = 0
+
+    def __init__(self, title, author):
+        self.title     = title
+        self.author    = author
+        self.available = True
+        Book.total    += 1
+
+    def borrow(self):
+        if self.available:
+            self.available = False
+            return f"✓ '{self.title}' borrowed."
+        return f"✗ '{self.title}' not available."
+
+    def return_book(self):
+        self.available = True
+        return f"✓ '{self.title}' returned."
+
+    def __str__(self):
+        status = "Available" if self.available else "Borrowed"
+        return f"'{self.title}' by {self.author} [{status}]"
+
+
+class Library:
+    def __init__(self, name):
+        self.name  = name
+        self.books = []
+
+    def add(self, book):
+        self.books.append(book)
+
+    def show(self):
+        print(f"\n=== {self.name} ===")
+        for i, b in enumerate(self.books, 1):
+            print(f"  {i}. {b}")
+        print(f"  Total: {Book.total} books")
+
+    def find(self, title):
+        for b in self.books:
+            if b.title.lower() == title.lower():
+                return b
+        return None
+
+
+# Run
+lib = Library("My Library")
+lib.add(Book("Python Crash Course", "Eric Matthes"))
+lib.add(Book("Clean Code",          "Robert Martin"))
+lib.add(Book("Atomic Habits",       "James Clear"))
+
+lib.show()
+
+print("\n" + lib.find("Clean Code").borrow())
+print(lib.find("Clean Code").borrow())    # try again
+print(lib.find("Clean Code").return_book())
+
+lib.show()
