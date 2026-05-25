@@ -1,0 +1,55 @@
+# Employee System — Inheritance, Polymorphism, Encapsulation
+# Day 11 of learning in public
+
+class Employee:
+    def __init__(self, name, salary):
+        self.name      = name
+        self.__salary  = salary    # encapsulation — private attribute
+
+    def get_salary(self):          # controlled access
+        return self.__salary
+
+    def set_salary(self, amount):
+        if amount < 0:
+            print("Invalid salary.")
+            return
+        self.__salary = amount
+
+    def role(self):                # polymorphism — overridden by subclasses
+        return "Employee"
+
+    def __str__(self):
+        return f"{self.role()}: {self.name} | ₹{self.__salary:,}"
+
+
+class Developer(Employee):         # inheritance
+    def __init__(self, name, salary, language):
+        super().__init__(name, salary)
+        self.language = language
+
+    def role(self):                # polymorphism — same method, different output
+        return f"Developer ({self.language})"
+
+
+class Manager(Employee):           # inheritance
+    def __init__(self, name, salary, team_size):
+        super().__init__(name, salary)
+        self.team_size = team_size
+
+    def role(self):
+        return f"Manager (Team of {self.team_size})"
+
+
+# Run
+team = [
+    Developer("Aryan",   800000, "Python"),
+    Developer("Rahul",   750000, "JavaScript"),
+    Manager  ("Priya",  1200000, 8),
+    Developer("Sandeep", 900000, "Python"),
+]
+
+print("=== Company Directory ===")
+for emp in team:
+    print(emp)
+
+print(f"\nTotal payroll: ₹{sum(e.get_salary() for e in team):,}")
