@@ -1,0 +1,51 @@
+# Data Analyser — Comprehensions & Functional Python
+# Day 14 of learning in public
+
+from functools import reduce
+
+data = [
+    {"name": "Aryan",   "dept": "Engineering", "salary": 85000,  "exp": 3},
+    {"name": "Rahul",   "dept": "Marketing",   "salary": 65000,  "exp": 2},
+    {"name": "Priya",   "dept": "Engineering", "salary": 95000,  "exp": 5},
+    {"name": "Sandeep", "dept": "Engineering", "salary": 75000,  "exp": 2},
+    {"name": "Sneha",   "dept": "Marketing",   "salary": 70000,  "exp": 4},
+    {"name": "Vikram",  "dept": "Engineering", "salary": 110000, "exp": 7},
+]
+
+# list comprehension — high earners
+high_earners = [e["name"] for e in data if e["salary"] > 80000]
+
+# dict comprehension — avg salary per dept
+depts    = {e["dept"] for e in data}
+avg_dept = {
+    dept: round(sum(e["salary"] for e in data if e["dept"] == dept) /
+                sum(1 for e in data if e["dept"] == dept))
+    for dept in depts
+}
+
+# map + filter — senior salaries
+senior_salaries = list(map(
+    lambda e: e["salary"],
+    filter(lambda e: e["exp"] > 3, data)
+))
+
+# reduce — total payroll
+total = reduce(lambda a, b: a + b, map(lambda e: e["salary"], data))
+
+# sorted with key
+top3 = sorted(data, key=lambda e: e["salary"], reverse=True)[:3]
+
+# any / all
+all_experienced = all(e["exp"] >= 2 for e in data)
+any_senior      = any(e["exp"] > 5 for e in data)
+
+print("=== Company Analytics ===")
+print(f"\nHigh earners     : {high_earners}")
+print(f"Avg salary/dept  : {avg_dept}")
+print(f"Senior salaries  : {senior_salaries}")
+print(f"Total payroll    : ₹{total:,}")
+print(f"All exp >= 2 yrs : {all_experienced}")
+print(f"Anyone exp > 5   : {any_senior}")
+print(f"\nTop 3 earners:")
+for e in top3:
+    print(f"  {e['name']:<10} ₹{e['salary']:,}")
