@@ -1,0 +1,57 @@
+# Text Data Extractor — Regular Expressions
+# Day 15 of learning in public
+
+import re
+
+def extract_all(text):
+    patterns = {
+        "emails" : r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}",
+        "phones" : r"(?:\+91)?[6-9]\d{9}",
+        "urls"   : r"https?://\S+",
+        "dates"  : r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}",
+        "prices" : r"₹\s?\d+(?:,\d{3})*(?:\.\d{2})?",
+    }
+    return {
+        name: re.findall(pattern, text)
+        for name, pattern in patterns.items()
+    }
+
+def validate_email(email):
+    return bool(re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email))
+
+def check_password(pwd):
+    checks = {
+        "8+ chars"  : len(pwd) >= 8,
+        "uppercase" : bool(re.search(r"[A-Z]", pwd)),
+        "lowercase" : bool(re.search(r"[a-z]", pwd)),
+        "digit"     : bool(re.search(r"\d",    pwd)),
+        "special"   : bool(re.search(r"[!@#$%^&*]", pwd)),
+    }
+    score = sum(checks.values())
+    return checks, score
+
+# ── Run ───────────────────────────────────────
+sample = """
+Contact: support@company.com or sales@startup.io
+Call   : +919876543210 or 8765432109
+Visit  : https://github.com or https://python.org
+Date   : 23/05/2026 and 30-05-2026
+Price  : ₹1,499.00 and ₹2,999
+"""
+
+print("=== Text Extractor ===")
+for category, items in extract_all(sample).items():
+    if items:
+        print(f"\n{category.upper()}:")
+        for item in items:
+            print(f"  {item}")
+
+print("\n=== Email Validator ===")
+for email in ["aryan@gmail.com", "invalid.email", "user@co.in"]:
+    print(f"  {email}: {'✓' if validate_email(email) else '✗'}")
+
+print("\n=== Password Checker ===")
+checks, score = check_password("Python3!")
+for check, result in checks.items():
+    print(f"  {'✓' if result else '✗'} {check}")
+print(f"  Strength: {score}/5")
