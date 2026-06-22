@@ -1,0 +1,90 @@
+"""
+Day 16 - Concurrency in Python
+
+Topics:
+1. Threading
+2. Multiprocessing
+3. Asyncio
+4. GIL Demonstration
+"""
+
+import threading
+import multiprocessing
+import asyncio
+import time
+
+
+# -------------------------
+# THREADING
+# -------------------------
+
+def download_file(name):
+    print(f"Starting download: {name}")
+    time.sleep(2)
+    print(f"Finished download: {name}")
+
+
+# -------------------------
+# MULTIPROCESSING
+# -------------------------
+
+def calculate_square(number):
+    print(f"Square of {number} = {number ** 2}")
+
+
+# -------------------------
+# ASYNCIO
+# -------------------------
+
+async def fetch_data(name):
+    print(f"Fetching {name}...")
+    await asyncio.sleep(2)
+    print(f"{name} received")
+    return name
+
+
+async def async_main():
+    await asyncio.gather(
+        fetch_data("User Data"),
+        fetch_data("Orders"),
+        fetch_data("Products")
+    )
+
+
+# -------------------------
+# MAIN
+# -------------------------
+
+if __name__ == "__main__":
+
+    print("\n=== THREADING ===")
+
+    t1 = threading.Thread(target=download_file, args=("image.jpg",))
+    t2 = threading.Thread(target=download_file, args=("video.mp4",))
+
+    start = time.time()
+
+    t1.start()
+    t2.start()
+
+    t1.join()
+    t2.join()
+
+    print(f"Threading Time: {time.time() - start:.2f}s")
+
+    print("\n=== MULTIPROCESSING ===")
+
+    p1 = multiprocessing.Process(target=calculate_square, args=(5,))
+    p2 = multiprocessing.Process(target=calculate_square, args=(10,))
+
+    p1.start()
+    p2.start()
+
+    p1.join()
+    p2.join()
+
+    print("\n=== ASYNCIO ===")
+
+    asyncio.run(async_main())
+
+    print("\nDay 16 Completed 🚀")
