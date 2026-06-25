@@ -1,0 +1,35 @@
+import requests
+
+
+def get_user(user_id):
+    url = f"https://jsonplaceholder.typicode.com/users/{user_id}"
+
+    try:
+        response = requests.get(url, timeout=5)
+
+        response.raise_for_status()
+
+        user = response.json()
+
+        print("\n===== USER DETAILS =====")
+        print(f"Name     : {user['name']}")
+        print(f"Username : {user['username']}")
+        print(f"Email    : {user['email']}")
+        print(f"City     : {user['address']['city']}")
+
+    except requests.exceptions.HTTPError:
+        print("HTTP Error occurred.")
+
+    except requests.exceptions.ConnectionError:
+        print("Connection Error.")
+
+    except requests.exceptions.Timeout:
+        print("Request Timed Out.")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Unexpected Error: {e}")
+
+
+if __name__ == "__main__":
+    print("Day 17 - APIs & Requests")
+    get_user(1)
